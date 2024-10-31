@@ -7,7 +7,7 @@ const Banner = () => {
       style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <h1 className="relative text-3xl font-bold text-center p-4 text-green-500">
+      <h1 className="relative text-3xl font-bold text-center p-4 text-white">
         Millions of cheap flights. One simple search.
       </h1>
     </div>
