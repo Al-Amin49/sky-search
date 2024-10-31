@@ -10,12 +10,12 @@ export type FlightSearchState= {
   baggageOption: string;
   departure: string;
   arrival: string;
-  departureDate: Date | null;
+  departureDate: Date | undefined |null ;
 }
 
 export const FlightSearchStore = new Store<FlightSearchState>({
   journeyType: "OneWay",
-  travelers: { adult: 1, child: 0, infant: 0 },
+  travelers: { adult: 0, child: 0, infant: 0 },
   cabinClass: "Economy",
   flightType: "any",
   baggageOption: "any",

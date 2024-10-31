@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-
 import { MdArrowDropDown } from "react-icons/md";
 import PassengerSelector from "../PassengerSelector";
 import { FlightSearchStore } from "@/pullstate/store";
 
-
-
 const Traveler = () => {
-    const travelers = FlightSearchStore.useState((s) => s.travelers);
+  const travelers = FlightSearchStore.useState((s) => s.travelers);
   const [showSelector, setShowSelector] = useState(false);
 
   return (
@@ -24,11 +21,14 @@ const Traveler = () => {
       {showSelector && (
         <div className="absolute mt-2 left-0 right-0 z-10 flex items-center justify-center">
           <div className="bg-white p-4 shadow-lg rounded-lg">
-            <PassengerSelector travelers={travelers}
-             setTravelers={(newTravelers) =>
-                FlightSearchStore.update((s) => { s.travelers = newTravelers })
+            <PassengerSelector
+              travelers={travelers}
+              setTravelers={(newTravelers) =>
+                FlightSearchStore.update((s) => {
+                  s.travelers = newTravelers;
+                })
               }
-             />
+            />
             <button className="mt-4" onClick={() => setShowSelector(false)}>
               Done
             </button>

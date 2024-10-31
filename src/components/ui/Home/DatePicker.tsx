@@ -33,7 +33,7 @@ const DatePicker = ({ selectedDate, onDateChange }:TDatePickerProps) => {
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={selectedDate}
+          selected={selectedDate ?? undefined}
           onSelect={onDateChange}
           initialFocus
         />

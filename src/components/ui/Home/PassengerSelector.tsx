@@ -1,27 +1,27 @@
 import React from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
-export type TTravelers= {
+export type TTravelers = {
   adult: number;
   child: number;
   infant: number;
-}
+};
 
-type PassengerSelectorProps ={
+type PassengerSelectorProps = {
   travelers: TTravelers;
-  setTravelers: React.Dispatch<React.SetStateAction<TTravelers>>;
-}
+  setTravelers: (newTravelers: TTravelers) => void; // Adjusted type for the setter
+};
 
 const PassengerSelector: React.FC<PassengerSelectorProps> = ({ travelers, setTravelers }) => {
   const increment = (type: keyof TTravelers) => {
-    setTravelers((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+    setTravelers({ ...travelers, [type]: travelers[type] + 1 });
   };
 
   const decrement = (type: keyof TTravelers) => {
-    setTravelers((prev) => ({
-      ...prev,
-      [type]: prev[type] > 0 ? prev[type] - 1 : 0,
-    }));
+    setTravelers({
+      ...travelers,
+      [type]: travelers[type] > 0 ? travelers[type] - 1 : 0,
+    });
   };
 
   const renderPassengerCounter = (label: string, count: number, type: keyof TTravelers) => (

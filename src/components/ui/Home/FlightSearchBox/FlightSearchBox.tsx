@@ -46,9 +46,8 @@ const FlightSearchBox = () => {
   return (
     <div className="max-w-4xl mx-auto py-6 px-12 border border-gray-500 bg-white rounded-lg shadow-md absolute md:bottom-1 right-0 left-0  md:fixed mb-10 ">
       {/* Journey Type, Travelers, Cabin Class */}
-      <div className="grid md:grid-cols-3 gap-4 mb-4">
+      <div className="grid md:grid-cols-3 gap-4 mb-4 md:place-items-center">
         <JourneyType/>
-       
        <Traveler ></Traveler>
       <CabinClass></CabinClass>
       </div>
@@ -106,8 +105,8 @@ const FlightSearchBox = () => {
         <div className="flex flex-col gap-2">
           <Label>Departure Date</Label>
           <DatePicker
-            selectedDate={departureDateType}
-            onDateChange={(date) => FlightSearchStore.update((s) => { s.departureDate = date })}
+            selectedDate={departureDateType ?? null}
+            onDateChange={(date) => FlightSearchStore.update((s) => { s.departureDate = date ?? null })}
           />
         </div>
         <Button
