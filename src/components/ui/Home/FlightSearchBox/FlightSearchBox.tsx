@@ -22,7 +22,7 @@ const FlightSearchBox = () => {
   const [baggageOption, setBaggageOption] = useState("any");
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
+  const [departureDate, setDepartureDate] = useState<Date | null>(null);
 
 
   const handleSearch = () => {

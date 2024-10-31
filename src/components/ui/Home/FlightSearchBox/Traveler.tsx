@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 
 import { MdArrowDropDown } from "react-icons/md";
-import PassengerSelector from "../PassengerSelector";
+import PassengerSelector, { TTravelers } from "../PassengerSelector";
+
 
 type TTravelerProps= {
     travelers: { adult: number; child: number; infant: number };
-    setTravelers: (travelers: { adult: number; child: number; infant: number }) => void;
+    setTravelers: React.Dispatch<React.SetStateAction<TTravelers>>
 
   }
 const Traveler = ({ travelers, setTravelers }:TTravelerProps) => {

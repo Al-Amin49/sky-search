@@ -11,7 +11,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const DatePicker = ({ selectedDate, onDateChange }) => {
+type TDatePickerProps = {
+    selectedDate: Date | null;
+    onDateChange: (date: Date | undefined  ) => void;
+  };
+const DatePicker = ({ selectedDate, onDateChange }:TDatePickerProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
