@@ -4,7 +4,7 @@ import FlightSearchBox from "@/components/ui/Home/SearchBox";
 
 const Home = () => {
     return (
-        <div>
+        <div >
             <Banner/>
             <FlightSearchBox/>
         </div>

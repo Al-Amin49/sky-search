@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import DatePicker from "./DatePicker";
 import PassengerSelector from "./PassengerSelector";
+import { MdArrowDropDown } from "react-icons/md";
 
 const FlightSearchBox = () => {
   const [journeyType, setJourneyType] = useState("OneWay");
@@ -37,7 +38,7 @@ const FlightSearchBox = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-12 border border-gray-500 bg-white rounded-lg shadow-md absolute md:bottom-1 right-0 left-0   ">
+    <div className="max-w-4xl mx-auto py-6 px-12 border border-gray-500 bg-white rounded-lg shadow-md absolute md:bottom-1 right-0 left-0  md:fixed mb-10 ">
       {/* Journey Type, Travelers, Cabin Class */}
       <div className="grid md:grid-cols-3 gap-4 mb-4">
         <div>
@@ -52,10 +53,16 @@ const FlightSearchBox = () => {
           </Select>
         </div>
         <div>
-          <Label>Travelers</Label>
-          <Button onClick={() => setShowPassengerSelector(!showPassengerSelector)} className="relative">
-            {`Adult: ${travelers.adult}, Child: ${travelers.child}, Infant: ${travelers.infant}`}
-          </Button>
+        <div className="flex flex-col ">
+  <Label>Travelers</Label>
+  <div
+    onClick={() => setShowPassengerSelector(!showPassengerSelector)}
+    className="relative flex items-center justify-between px-3 py-2 text-sm bg-gray-100 border rounded cursor-pointer shadow-sm hover:bg-gray-200"
+  >
+    {`Passengers: ${travelers.adult + travelers.child + travelers.infant}`}
+    <MdArrowDropDown className="w-5 h-5 ml-2 text-gray-500" />
+  </div>
+</div>
           {showPassengerSelector && (
             <div className="absolute mt-2 left-0 right-0 z-10 flex items-center justify-center">
               <div className="bg-white p-4 shadow-lg rounded-lg">
