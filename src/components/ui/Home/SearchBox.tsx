@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import DatePicker from "./DatePicker";
+import PassengerSelector from "./PassengerSelector";
 
 const FlightSearchBox = () => {
   const [journeyType, setJourneyType] = useState("OneWay");
@@ -14,6 +15,7 @@ const FlightSearchBox = () => {
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [departureDate, setDepartureDate] = useState("");
+  const [showPassengerSelector, setShowPassengerSelector] = useState(false);
 
   const handleSearch = () => {
     console.log({
@@ -35,7 +37,7 @@ const FlightSearchBox = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-4xl mx-auto py-6 px-12 border border-gray-500 bg-white rounded-lg shadow-md absolute md:bottom-1 right-0 left-0   ">
       {/* Journey Type, Travelers, Cabin Class */}
       <div className="grid md:grid-cols-3 gap-4 mb-4">
         <div>
@@ -51,9 +53,22 @@ const FlightSearchBox = () => {
         </div>
         <div>
           <Label>Travelers</Label>
-          <Button onClick={() => setTravelers({ adult: 1, child: 0, infant: 0 })}>
+          <Button onClick={() => setShowPassengerSelector(!showPassengerSelector)} className="relative">
             {`Adult: ${travelers.adult}, Child: ${travelers.child}, Infant: ${travelers.infant}`}
           </Button>
+          {showPassengerSelector && (
+            <div className="absolute mt-2 left-0 right-0 z-10 flex items-center justify-center">
+              <div className="bg-white p-4 shadow-lg rounded-lg">
+                <PassengerSelector travelers={travelers} setTravelers={setTravelers} />
+                <Button
+                  className="mt-4"
+                  onClick={() => setShowPassengerSelector(false)}
+                >
+                  Done
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
         <div>
           <Label>Cabin Class</Label>
@@ -119,7 +134,7 @@ const FlightSearchBox = () => {
           <Label>Departure Date</Label>
           <DatePicker selectedDate={departureDate} onDateChange={(date) => setDepartureDate(date)} />
         </div>
-        <Button className="w-full bg-blue-500 text-white" onClick={handleSearch}>
+        <Button className="w-full bg-green-500 text-white" onClick={handleSearch}>
           Search Flights
         </Button>
       </div>
