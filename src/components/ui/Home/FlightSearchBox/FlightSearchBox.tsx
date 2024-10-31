@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import {
   Select,
   SelectContent,
@@ -13,34 +13,33 @@ import JourneyType from "./JourneyType";
 import Traveler from "./Traveler";
 import CabinClass from "./CabinClass";
 import AirportInput from "./AiportInput";
+import { FlightSearchStore } from "@/pullstate/store";
 
 const FlightSearchBox = () => {
-  const [journeyType, setJourneyType] = useState("OneWay");
-  const [travelers, setTravelers] = useState({ adult: 1, child: 0, infant: 0 });
-  const [cabinClass, setCabinClass] = useState("Economy");
-  const [flightType, setFlightType] = useState("any");
-  const [baggageOption, setBaggageOption] = useState("any");
-  const [departure, setDeparture] = useState("");
-  const [arrival, setArrival] = useState("");
-  const [departureDate, setDepartureDate] = useState<Date | null>(null);
+  const flightState = FlightSearchStore.useState();
+  const flightType = FlightSearchStore.useState((s) => s.flightType);
+  const baggageType= FlightSearchStore.useState((s)=>s.baggageOption);
+  const departureType= FlightSearchStore.useState((s)=>s.departure);
+  const arrivalType= FlightSearchStore.useState((s)=>s.arrival);
+  const departureDateType= FlightSearchStore.useState((s)=>s.departureDate)
 
 
   const handleSearch = () => {
     console.log({
-      journey_type: journeyType,
+      journey_type: flightState.journeyType,
       segment: [
         {
-          departure_airport: departure,
-          arrival_airport: arrival,
-          departure_date: departureDate,
+          departure_airport: flightState.departure,
+          arrival_airport: flightState.arrival,
+          departure_date: flightState.departureDate,
         },
       ],
-      travelers_adult: travelers.adult,
-      travelers_child: travelers.child,
-      travelers_infants: travelers.infant,
-      booking_class: cabinClass,
-      non_stop_flight: flightType,
-      baggage_option: baggageOption,
+      travelers_adult: flightState.travelers.adult,
+      travelers_child: flightState.travelers.child,
+      travelers_infants: flightState.travelers.infant,
+      booking_class: flightState.cabinClass,
+      non_stop_flight: flightState.flightType,
+      baggage_option: flightState.baggageOption,
     });
   };
 
@@ -48,10 +47,10 @@ const FlightSearchBox = () => {
     <div className="max-w-4xl mx-auto py-6 px-12 border border-gray-500 bg-white rounded-lg shadow-md absolute md:bottom-1 right-0 left-0  md:fixed mb-10 ">
       {/* Journey Type, Travelers, Cabin Class */}
       <div className="grid md:grid-cols-3 gap-4 mb-4">
-        <JourneyType journeyType={journeyType} setJourneyType={setJourneyType}/>
+        <JourneyType/>
        
-       <Traveler travelers={travelers} setTravelers={setTravelers}></Traveler>
-      <CabinClass cabinClass={cabinClass} setCabinClass={setCabinClass}></CabinClass>
+       <Traveler ></Traveler>
+      <CabinClass></CabinClass>
       </div>
 
       {/* Flight Type & Baggage Option */}
@@ -60,7 +59,9 @@ const FlightSearchBox = () => {
           <Label>Flight Type</Label>
           <Select
             value={flightType}
-            onValueChange={(value) => setFlightType(value)}
+            onValueChange={(value) =>
+              FlightSearchStore.update((s) => { s.flightType = value })
+            }
           >
             <SelectTrigger>Choose Flight Type</SelectTrigger>
             <SelectContent>
@@ -72,8 +73,10 @@ const FlightSearchBox = () => {
         <div>
           <Label>Baggage Option</Label>
           <Select
-            value={baggageOption}
-            onValueChange={(value) => setBaggageOption(value)}
+            value={baggageType}
+            onValueChange={(value) =>
+              FlightSearchStore.update((s) => { s.baggageOption = value })
+            }
           >
             <SelectTrigger>Choose Baggage Option</SelectTrigger>
             <SelectContent>
@@ -86,8 +89,16 @@ const FlightSearchBox = () => {
 
       {/* Departure & Arrival Inputs */}
       <div className="grid md:grid-cols-2 gap-4 mb-4">
-      <AirportInput label="Departure" value={departure} setValue={setDeparture} />
-      <AirportInput label="Arrival" value={arrival} setValue={setArrival} />
+      <AirportInput label="Departure" value={departureType} 
+    setValue={(newValue) =>
+      FlightSearchStore.update((s) => { s.departure = newValue })
+    }
+       />
+      <AirportInput label="Arrival" value={arrivalType}
+      setValue={(newValue) =>
+        FlightSearchStore.update((s) => { s.arrival=newValue })
+      }
+        />
       </div>
 
       {/* Date Picker & Search Button */}
@@ -95,8 +106,8 @@ const FlightSearchBox = () => {
         <div className="flex flex-col gap-2">
           <Label>Departure Date</Label>
           <DatePicker
-            selectedDate={departureDate}
-            onDateChange={(date) => setDepartureDate(date)}
+            selectedDate={departureDateType}
+            onDateChange={(date) => FlightSearchStore.update((s) => { s.departureDate = date })}
           />
         </div>
         <Button

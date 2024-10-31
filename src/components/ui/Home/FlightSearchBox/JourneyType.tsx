@@ -1,16 +1,19 @@
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { FlightSearchStore } from "@/pullstate/store";
 
 
 
-type TJourneyTypeProps= {
-    journeyType: string;
-    setJourneyType: (value: string) => void;
-  }
-const JourneyType = ({ journeyType, setJourneyType }:TJourneyTypeProps) => (
+const JourneyType = () => {
+    const journeyType = FlightSearchStore.useState((s) => s.journeyType);
+    return (
   <div>
     <Label>Journey Type</Label>
-    <Select value={journeyType} onValueChange={setJourneyType}>
+    <Select value={journeyType}
+     onValueChange={(value) =>
+        FlightSearchStore.update((s) => { s.journeyType = value })
+      }
+    >
       <SelectTrigger>Choose Journey Type</SelectTrigger>
       <SelectContent>
         <SelectItem value="OneWay">One Way</SelectItem>
@@ -19,6 +22,7 @@ const JourneyType = ({ journeyType, setJourneyType }:TJourneyTypeProps) => (
       </SelectContent>
     </Select>
   </div>
-);
+    )
+}
 
 export default JourneyType;

@@ -2,15 +2,13 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 
 import { MdArrowDropDown } from "react-icons/md";
-import PassengerSelector, { TTravelers } from "../PassengerSelector";
+import PassengerSelector from "../PassengerSelector";
+import { FlightSearchStore } from "@/pullstate/store";
 
 
-type TTravelerProps= {
-    travelers: { adult: number; child: number; infant: number };
-    setTravelers: React.Dispatch<React.SetStateAction<TTravelers>>
 
-  }
-const Traveler = ({ travelers, setTravelers }:TTravelerProps) => {
+const Traveler = () => {
+    const travelers = FlightSearchStore.useState((s) => s.travelers);
   const [showSelector, setShowSelector] = useState(false);
 
   return (
@@ -26,7 +24,11 @@ const Traveler = ({ travelers, setTravelers }:TTravelerProps) => {
       {showSelector && (
         <div className="absolute mt-2 left-0 right-0 z-10 flex items-center justify-center">
           <div className="bg-white p-4 shadow-lg rounded-lg">
-            <PassengerSelector travelers={travelers} setTravelers={setTravelers} />
+            <PassengerSelector travelers={travelers}
+             setTravelers={(newTravelers) =>
+                FlightSearchStore.update((s) => { s.travelers = newTravelers })
+              }
+             />
             <button className="mt-4" onClick={() => setShowSelector(false)}>
               Done
             </button>

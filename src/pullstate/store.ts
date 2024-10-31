@@ -2,7 +2,7 @@ import { Store } from "pullstate";
 
 type Travelers = { adult: number; child: number; infant: number };
 
-type FlightSearchState= {
+export type FlightSearchState= {
   journeyType: string;
   travelers: Travelers;
   cabinClass: string;
