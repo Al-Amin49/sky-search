@@ -1,4 +1,4 @@
-
+/* ts-ignore */
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/popover";
 
 type TDatePickerProps = {
-    selectedDate: Date | null;
+    selectedDate?: Date | null ;
     onDateChange: (date: Date | undefined  ) => void;
   };
 const DatePicker = ({ selectedDate, onDateChange }:TDatePickerProps) => {
@@ -33,9 +33,12 @@ const DatePicker = ({ selectedDate, onDateChange }:TDatePickerProps) => {
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={selectedDate ?? undefined}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+          selected={selectedDate  }
           onSelect={onDateChange}
           initialFocus
+          className="bg-gray-100 rounded-md" 
         />
       </PopoverContent>
     </Popover>

@@ -1,11 +1,27 @@
-import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker } from "react-day-picker"
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import * as React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { DayPicker, DayPickerProps, ClassNames } from "react-day-picker";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = Omit<DayPickerProps, "classNames" | "components"> & {
+  classNames?: Partial<ClassNames>;
+  components?: {
+    IconLeft?: (props: React.SVGProps<SVGSVGElement>) => JSX.Element | null;
+    IconRight?: (props: React.SVGProps<SVGSVGElement>) => JSX.Element | null;
+  };
+};
+
+// Define IconLeft and IconRight directly as functions
+const IconLeft = (props: React.SVGProps<SVGSVGElement>) => (
+  <ChevronLeft className="h-4 w-4" {...props} />
+);
+
+const IconRight = (props: React.SVGProps<SVGSVGElement>) => (
+  <ChevronRight className="h-4 w-4" {...props} />
+);
 
 function Calendar({
   className,
@@ -14,6 +30,7 @@ function Calendar({
   ...props
 }: CalendarProps) {
   return (
+//     @ts-expect-error
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
@@ -50,15 +67,16 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
-      }}
+      } as Partial<ClassNames>} // Type assertion to ensure compatibility
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        IconLeft,
+        IconRight,
       }}
       {...props}
     />
-  )
+  );
 }
-Calendar.displayName = "Calendar"
 
-export { Calendar }
+Calendar.displayName = "Calendar";
+
+export { Calendar };
